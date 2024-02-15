@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express'
 import { body, validationResult } from 'express-validator'
 import { RequsetValidationError } from '../errors/request-validation-error'
-import { DatabaseConnectionError } from '../errors/database-connection-error'
+import { User } from '../models/user'
+import { BadRequestError } from '../errors/bad-request-error'
 
 const router = express.Router()
 
@@ -19,17 +20,23 @@ router.post('/api/users/signup',
 
     const errors = validationResult(req);
 
-    // if errors is not empty
+    // if it have errors
     if (!errors.isEmpty()) {
       throw new RequsetValidationError(errors.array())
     }
 
+
     const { email, password } = req.body;
+    const existingUser = await User.findOne({ email })
 
-    console.log('Creating a user');
-    throw new DatabaseConnectionError()
+    if (existingUser) {
+      throw new BadRequestError('Email in use')
+    }
 
-    res.send({})
+    const user = User.build({ email, password })
+    await user.save()
+
+    res.status(201).send(user)
   })
 
 

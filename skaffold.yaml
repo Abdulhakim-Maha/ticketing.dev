@@ -16,3 +16,12 @@ build:
           - src: 'src/**/*.ts'
             dest: .
 
+    - image: kenobii/client
+      context: client 
+      docker:
+        dockerfile: Dockerfile 
+      sync:
+        manual:
+          - src: '**/*.js'
+            dest: .
+

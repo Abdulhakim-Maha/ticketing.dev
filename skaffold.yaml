@@ -27,3 +27,12 @@ build:
           - src: '**/*.jsx'
             dest: .
 
+    - image: kenobii/tickets
+      context: tickets 
+      docker:
+        dockerfile: Dockerfile 
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+

@@ -9,7 +9,7 @@ const color: Color = {
   red: 10,
   blue: 10,
   green: 10,
-  alpha: 0.5
+  alpha: 1
 }
 console.log(color)
 
